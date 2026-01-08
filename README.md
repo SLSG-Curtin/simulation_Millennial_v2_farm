@@ -128,7 +128,7 @@ compile_muresk_csat$qmax030   <- with(compile_muresk_csat, Csat/100 * BD_30 * 30
 ```
 
 ### 2. Forcing Inputs Generation
-**Script**: `d03_script/soiltempmoisture_daily.R`
+**Script**: `d01_src/soiltempmoisture_daily.R`
 
 The model uses **SILO weather station data** (minimum air temperature, maximum air temperature, rainfall) to calculate daily soil drivers at a depth of 0-30cm.
 
@@ -140,7 +140,7 @@ $$T_{soil}(d, z) = \beta_0 + \beta_{lat} \times Lat + \sin(d \times \beta_{seas}
 
 #### 2.2 Soil Moisture Calculation
 
-Calculated using a **Soil Water Balance Model** with function `calc_daily_sw_update` (Script: `d03_script/soiltempmoisture_daily.R`).
+Calculated using a **Soil Water Balance Model** with function `calc_daily_sw_update` (Script: `d01_src/soiltempmoisture_daily.R`).
 
 ```text
 ══════════════════════════════════════════════════════════════════════════════════
@@ -239,7 +239,7 @@ Calculated using a **Soil Water Balance Model** with function `calc_daily_sw_upd
 
 #### 2.3 Daily C input calculation
 
-**Script**: `d03_script/syn_cinputs_MonteCarlo_parallel_constraints_v3.R`
+**Script**: `d01_src/cinputs_daily.R`
 
 Carbon inputs from plants are simulated using a dedicated plant growth model (Lee et al., 2021; Unkovich et al., 2018) that accounts for uncertainties through Monte Carlo sampling.
 
@@ -349,7 +349,7 @@ The final forcing inputs file combines:
 
 ## 🎯 Model Calibration
 
-**Script**: `d03_script/muresk_calib_ode_new.R`
+**Script**: `d01_src/muresk_calib_site.R`
 
 We perform **direct site-specific calibration** using the 13 important parameters identified from PAWN sensitivity analysis.
 
@@ -421,7 +421,7 @@ Standard initialization uses measured soil carbon fractions for the three target
 
 ## 📉 Sensitivity Analysis
 
-**Script**: `d03_script/muresk_ode_sensitivity_all.R`
+**Script**: `d01_src/muresk_sensitivity_all.R`
 
 Following calibration, we conduct sensitivity analysis to understand the influence of key drivers on MAOM dynamics.
 
@@ -444,7 +444,7 @@ For each site: simulated soil C fractions at equilibrium state
 
 ## 🧩 SEM Analysis
 
-**Script**: `d03_script/maom_influence_analysis_option1.R`
+**Script**: `d01_src/maom_influence_sem_analysis.R`
 
 Structural Equation Modeling (SEM) is used to analyze the complex causal relationships between validated drivers and MAOM (Mineral-Associated Organic Matter).
 
@@ -524,19 +524,15 @@ fit <- lavaan::sem(model,
 
 | File/Directory | Description |
 | :--- | :--- |
-| `d02_data/SILO/` | SILO weather station CSV files |
-| `d02_data/for_model/compile_muresk_csat.txt` | Compiled soil C fractions and properties |
-| `d02_data/forcing_inputs_new/` | Processed forcing input files |
-| `croptype/geo_croptype.csv` | Site locations and historical crop types |
+| `d02_data/compile_muresk_csat_all.txt` | Compiled soil C fractions and properties |
+| `d02_data/forcing_inputs/` | Processed forcing input files |
+| `d02_data/geo_croptype.csv` | Site locations and historical crop types |
 
 ### Output Data Structure
 
 | File | Description |
 | :--- | :--- |
-| `d04_output/sitebysite_muresk_threefrac_ode_100y_*.rds` | Calibrated parameters per site |
-| `d04_output/All_interactions_*.csv` | Sensitivity analysis results |
-| `d04_output/maom_influence/sem_parameters_*.csv` | SEM model parameters |
-| `d05_fig/maom_influence/` | SEM visualizations |
+| `d04_report/sitebysite_muresk_threefrac_ode_100y_*.rds` | Calibrated parameters per site |
 
 ---
 
