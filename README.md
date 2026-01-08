@@ -551,16 +551,6 @@ fit <- lavaan::sem(model,
 
 ## 📂 Appendix
 
-### Script Summary
-
-| Script | Purpose | Key Functions |
-| :--- | :--- | :--- |
-| `soiltempmoisture_daily.R` | Generate daily soil temperature and moisture | `calculate_weightings_*`, Equations 5-8 |
-| `syn_cinputs_MonteCarlo_parallel_constraints_v3.R` | Monte Carlo C inputs | `calc_annuals_new`, `calc_perennials_v3`, `get_AN_daily_v3` |
-| `muresk_calib_ode_new.R` | Site-specific calibration | `derivs.rangeland.MV3.adj`, SCE-UA optimization |
-| `muresk_ode_sensitivity_all.R` | Sensitivity analysis | NPP, pH, clay+silt, CUE analysis |
-| `maom_influence_analysis_option1.R` | SEM analysis | `lavaan::sem`, multi-group models |
-
 ### Millennial v2 Model Equations
 
 See "Calibration_Millennial_v2_Australian_Rangelands.md" Appendix for the complete model structure diagram and equations.
