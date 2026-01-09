@@ -116,7 +116,7 @@ Unlike the regional rangelands model (two fractions), the Muresk farm model reli
 | **pH** | Soil pH (CaCl₂) | --- | Measured (Range: 3.95-6.43, Mean: 5.16) |
 | **Litter C:N** | Litter carbon to nitrogen ratio | --- | Measured |
 | **Total Soil C:N** | Soil organic matter C:N ratio | --- | Measured |
-| **BD** | Bulk density | --- | Measured |
+| **BD** | Bulk density | mg cm -3 | Measured |
 | **Csat (Qmax)** | MAOC sorption capacity | g C m⁻² | Viscarra Rossel et al. (2024) |
 
 **Unit Conversion**: All fractions are converted to g C m⁻² using:
@@ -241,7 +241,7 @@ Calculated using a **Soil Water Balance Model** with function `calc_daily_sw_upd
 
 **Script**: `d01_src/cinputs_daily.R`
 
-Carbon inputs from plants are simulated using a dedicated plant growth model (Lee et al., 2021; Unkovich et al., 2018) that accounts for uncertainties through Monte Carlo sampling.
+Carbon inputs from plants are simulated using a plant growth model based on transpiration efficiency (Lee et al., 2021; Unkovich et al., 2018) that accounts for uncertainties through Monte Carlo sampling.
 
 ##### 2.3.1 Plant Growth Models
 
@@ -341,9 +341,9 @@ validate_root_exudation_constraint <- function(result_data, min_ratio = 0.07, ma
 ##### 2.3.3 Combining Forcing Inputs
 
 The final forcing inputs file combines:
-1. Daily Soil Temperature (from Equation 8)
+1. Daily Soil Temperature (from Horton model)
 2. Daily Soil Moisture (from water balance model)
-3. Daily Carbon Inputs (Monte Carlo mean or specific iteration)
+3. Daily Plant C Inputs (Monte Carlo mean or specific iteration)
 
 ---
 
@@ -484,9 +484,9 @@ model_B <- '
 
 | Latent Factor | Indicators | Interpretation |
 | :--- | :--- | :--- |
-| **Efficiency** | CUE, ratio_constraints | Microbial processing efficiency |
-| **Sorption** | MAOM_Qmax, ClaySilt, pH | Mineral surface availability |
-| **Desorption** | 1 * pH | pH-dependent release (Explicit in Option A6/A7/A8) |
+| **Efficiency** | CUE, ratio_constraints | Microbial use efficiency |
+| **Sorption** | MAOM_Qmax, ClaySilt, pH | Mineral-Organo interaction |
+| **Desorption** | 1 * pH | pH-dependent release |
 
 ### 4. Model Fitting
 
@@ -540,10 +540,10 @@ fit <- lavaan::sem(model,
 
 - Abramoff, Rose Z., et al. "Improved global-scale predictions of soil carbon stocks with Millennial Version 2." Soil Biology and Biochemistry 164 (2022): 108466.
 - Horton, Brian, and Ross Corkrey. "A weighted coefficient model for estimation of Australian daily soil temperature at depths of 5 cm to 100 cm based on air temperature and rainfall." Soil Research 49.4 (2011): 305-314.
-- Lee, J., Viscarra Rossel, R.A., Zhang, M., Luo, Z., & Wang, Y.P. (2021). *Assessing the response of soil carbon in Australia to changing inputs and climate using a consistent modelling framework.* Biogeosciences.
+- Lee, J., Viscarra Rossel, R.A., Zhang, M., Luo, Z., & Wang, Y.P. (2021). Assessing the response of soil carbon in Australia to changing inputs and climate using a consistent modelling framework.* Biogeosciences.
 - Pianosi, F., & Wagener, T. (2018). "Distribution-based sensitivity analysis from a generic input-output sample." Environmental Modelling & Software.
 - Sanderman, Jonathan, Ryan Farquharson, and Jeffrey Baldock. "Soil carbon sequestration potential: a review for Australian agriculture." (2009): viii+-80.
-- Unkovich, M., Baldock, J., & Farquharson, R. (2018). *Field measurements of bare soil evaporation and crop transpiration, and transpiration efficiency, for rainfed grain crops in Australia–A review.* Agricultural Water Management, 205, 72-80.
+- Unkovich, M., Baldock, J., & Farquharson, R. (2018). Field measurements of bare soil evaporation and crop transpiration, and transpiration efficiency, for rainfed grain crops in Australia–A review.* Agricultural Water Management, 205, 72-80.
 - Viscarra Rossel, R. A., et al. (2024). "How much organic carbon could the soil store? The carbon sequestration potential of Australian soil." Global Change Biology.
 - Jeffrey, S.J., et al. (2001). "Using spatial interpolation to construct a comprehensive archive of Australian climate data." Environmental Modelling & Software, 16(4), 309-330. (SILO)
 
