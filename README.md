@@ -415,7 +415,6 @@ Standard initialization uses measured soil carbon fractions for the three target
 
 - Calibrated parameters per site
 - Daily simulated C pools
-- Realized CUE time series
 
 ---
 
